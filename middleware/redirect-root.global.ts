@@ -1,7 +1,5 @@
-export default defineNuxtRouteMiddleware((to, from) => {
+export default defineNuxtRouteMiddleware((to) => {
   if (to.path === '/') {
     return navigateTo('/jokes', { redirectCode: 301 });
   }
-
-  return navigateTo(from, { redirectCode: 301 });
 });
