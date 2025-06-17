@@ -1,10 +1,10 @@
 <template>
   <div class="mb-4 flex justify-center">
-    <label for="type" class="mr-2">Type:</label>
+    <label for="type" class="mr-2 text-[#1e293b] font-medium">Type:</label>
     <select
       id="type"
       v-model="selectedType"
-      class="border rounded px-2 py-1"
+      class="border border-[#e5e7eb] rounded-md px-3 py-1.5 bg-[rgb(237, 240, 244)] text-[#1e293b] focus:outline-none focus:ring-2 focus:ring-[#2563eb] focus:border-[#2563eb] transition-colors"
       @change="emitTypeChange"
     >
       <option value="programming">Programming</option>
