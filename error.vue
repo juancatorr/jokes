@@ -6,28 +6,23 @@
   </div>
 </template>
 
-<script setup>
-const props = defineProps({
-  error: {
-    type: Object,
-    required: true
-  }
-})
+<script setup lang="ts">
+type NuxtError = {
+  statusCode:
+    | 404
+    | 500
+    | 400
+    | 401
+    | 403
+    | 502
+    | 503
+    | number;
+  message: string;
+};
+
+defineProps<{
+  error: NuxtError;
+}>();
 </script>
 
-<style scoped>
-.error-page {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 70vh;
-  background: #fff0f0;
-  color: #c00;
-}
-.error-page a {
-  margin-top: 2rem;
-  color: #0070f3;
-  text-decoration: underline;
-}
-</style>
+

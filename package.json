@@ -33,9 +33,6 @@
     "tailwindcss": "^4.1.10"
   },
   "lint-staged": {
-    "*.{js,ts,vue,css,scss,md,json}": [
-      "biome format --write",
-      "biome check"
-    ]
+    "*.{js,ts,vue,css,scss,md,json}": ["biome check"]
   }
 }
