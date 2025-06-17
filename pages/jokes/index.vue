@@ -14,13 +14,8 @@
     <div v-if="loading">Loading jokes...</div>
     <div v-else-if="error">Error: {{ error }}</div>
 
-    <div
-      v-for="joke in jokes"
-      :key="joke.id"
-      class="border rounded p-4 w-full max-w-xl bg-white shadow"
-    >
-      <div class="font-semibold">{{ joke.setup }}</div>
-      <div class="text-gray-600 mt-2">{{ joke.punchline }}</div>
+    <div class="w-full max-w-xl space-y-4">
+      <JokeCard v-for="joke in jokes" :key="joke.id" :joke="joke" />
     </div>
   </div>
 </template>
@@ -29,6 +24,7 @@
 import { ref } from 'vue';
 import { useJokesSimple } from '~/composables/useJokesSimple';
 import type { JokeType } from '~/types/joke';
+import JokeCard from '~/components/JokeCard.vue';
 
 definePageMeta({
   ssr: false,
