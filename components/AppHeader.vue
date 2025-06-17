@@ -9,6 +9,5 @@
 </template>
 
 <script setup>
-// Puedes agregar lógica aquí si es necesario
 </script>
 

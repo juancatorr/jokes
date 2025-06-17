@@ -1,16 +1,16 @@
 <template>
   <div class="min-h-screen flex flex-col bg-white">
-    <Header />
+    <AppHeader />
     <main class="flex-1 max-w-5xl w-full mx-auto py-8 px-4">
       <slot />
     </main>
-    <Footer />
+    <AppFooter />
   </div>
 </template>
 
 <script setup>
-import Footer from '~/components/Footer.vue';
-import Header from '~/components/Header.vue';
+import AppFooter from '~/components/AppFooter.vue';
+import AppHeader from '~/components/AppHeader.vue';
 </script>
 
 <style scoped>
