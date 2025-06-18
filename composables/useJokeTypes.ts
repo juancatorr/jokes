@@ -1,9 +1,11 @@
 import { useQuery } from '@tanstack/vue-query';
-import type { JokeType } from '~/types/joke';
+import { useNuxtApp } from 'nuxt/app';
 
 export function useJokeTypes() {
-  const fetchJokeTypes = async (): Promise<JokeType[]> => {
-    const { data } = await useNuxtApp().$axios.get('/types');
+  const api = useNuxtApp().$api as import('axios').AxiosInstance;
+
+  const fetchJokeTypes = async (): Promise<string[]> => {
+    const { data } = await api.get<string[]>('/types');
     return data;
   };
 
