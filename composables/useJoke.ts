@@ -6,7 +6,7 @@ import type { Joke } from '~/types/joke';
  * Hook to fetch a joke by ID
  * @param id Joke ID
  */
-export function useJokeById(id: number) {
+export function useJoke(id: number) {
   const api = useNuxtApp().$api as import('axios').AxiosInstance;
 
   return useQuery({

@@ -2,7 +2,7 @@ import { ref, watch, type Ref } from 'vue';
 import { useNuxtApp } from 'nuxt/app';
 import type { Joke, JokeType } from '~/types/joke';
 
-export function useJokesSimple(type: Ref<JokeType | 'random'>) {
+export function useJokes(type: Ref<JokeType | 'random'>) {
   const api = useNuxtApp().$api as import('axios').AxiosInstance;
   const jokes = ref<Joke[]>([]);
   const loading = ref(false);

@@ -13,7 +13,7 @@
 
 <script setup lang="ts">
 import { ref, watch } from 'vue';
-import { useJokesSimple } from '~/composables/useJokesSimple';
+import { useJokes } from '~/composables/useJokes';
 import type { JokeType } from '~/types/joke';
 import JokeCard from '~/components/JokeCard.vue';
 import JokeTypeSelector from '~/components/JokeTypeSelector.vue';
@@ -21,7 +21,7 @@ import JokeSkeletonGrid from '~/components/JokeSkeletonGrid.vue';
 import { useToast } from '~/composables/useToast';
 
 const type = ref<JokeType>('programming');
-const { jokes, loading, error } = useJokesSimple(type);
+const { jokes, loading, error } = useJokes(type);
 const { showToast } = useToast();
 
 watch(
