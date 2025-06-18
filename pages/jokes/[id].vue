@@ -1,11 +1,12 @@
 <template>
   <div class="flex flex-col items-center gap-4">
-    <h1 class="text-3xl font-bold text-primary-600 mb-2">Joke Detail</h1>
-    <p class="text-lg text-text-muted">ID: {{ id }}</p>
-
-    <div v-if="isLoading" class="w-full max-w-xl text-center py-8 text-text-muted">
+    <h1 class="text-3xl font-bold text-primary-600 mb-2">{{ `#${id}` }}</h1>
+    <div
+      v-if="isLoading"
+      class="w-full text-center py-8 text-text-muted flex items-center justify-center"
+    >
       <Icon name="octicon:sync-16" class="animate-spin mr-2 inline-block" />
-      Loading joke...
+      <p>Loading joke...</p>
     </div>
     <div v-else-if="isError" class="w-full text-center py-8 text-danger-fg">
       <Icon name="octicon:alert-16" class="mr-2 inline-block" />
