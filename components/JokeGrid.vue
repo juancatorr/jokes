@@ -1,6 +1,16 @@
 <template>
-  <div class="w-full flex justify-end items-center">
+  <div class="w-full flex justify-end items-center mb-4 gap-4">
     <JokeTypeSelector :initial-type="type" @type-change="handleTypeChange" />
+    <AppButton
+      variant="primary"
+      rounded="md"
+      size="lg"
+      class="ml-2"
+      title="Refresh jokes"
+      @click="fetchJokes"
+    >
+      <Icon name="octicon:sync-16" class="h-5 w-5" />
+    </AppButton>
   </div>
 
   <JokeSkeletonGrid v-if="loading" />
@@ -18,10 +28,11 @@ import type { JokeType } from '~/types/joke';
 import JokeCard from '~/components/JokeCard.vue';
 import JokeTypeSelector from '~/components/JokeTypeSelector.vue';
 import JokeSkeletonGrid from '~/components/JokeSkeletonGrid.vue';
+import AppButton from '~/components/AppButton.vue';
 import { useToast } from '~/composables/useToast';
 
 const type = ref<JokeType>('programming');
-const { jokes, loading, error } = useJokes(type);
+const { jokes, loading, error, fetchJokes } = useJokes(type);
 const { showToast } = useToast();
 
 watch(

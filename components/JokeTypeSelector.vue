@@ -1,5 +1,5 @@
 <template>
-  <div class="mb-4 flex justify-center items-center">
+  <div class="flex justify-center items-center">
     <label for="type" class="mr-2 text-text font-medium">Type:</label>
     <div v-if="loading" class="flex items-center">
       <div class="w-[148px] h-[36px] bg-gray-200 rounded-lg animate-pulse" />

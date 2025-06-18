@@ -20,5 +20,7 @@ export function useJokes(type: Ref<JokeType | 'random'>) {
   const loading = computed(() => result.isPending.value);
   const error = computed(() => (result.error.value ? (result.error.value as Error).message : null));
 
-  return { jokes, loading, error };
+  const fetchJokes = () => result.refetch();
+
+  return { jokes, loading, error, fetchJokes };
 }
