@@ -26,23 +26,12 @@
 </template>
 
 <script setup lang="ts">
-import type { Joke, JokeType } from '~/types/joke';
+import { useJokeUtils } from '~/composables/useJokeUtils';
+import type { Joke } from '~/types/joke';
 
 defineProps<{
   joke: Joke;
 }>();
 
-function getChipVariant(
-  type: JokeType
-): 'default' | 'primary' | 'success' | 'danger' | 'attention' {
-  switch (type) {
-    case 'programming':
-      return 'primary';
-    case 'knock-knock':
-      return 'attention';
-    case 'general':
-    default:
-      return 'default';
-  }
-}
+const { getChipVariant } = useJokeUtils();
 </script>
