@@ -16,7 +16,7 @@
   <JokeSkeletonGrid v-if="loading" />
   <div v-else-if="error" class="my-4 text-center text-danger-fg">Error: {{ error }}</div>
 
-  <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+  <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-6">
     <JokeCard v-for="joke in jokes" :key="joke.id" :joke="joke" />
   </div>
 </template>
