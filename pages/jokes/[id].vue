@@ -37,7 +37,6 @@
 import { computed, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useJokeUtils } from '~/composables/useJokeUtils';
-import type { Joke } from '~/types/joke';
 import { useJoke } from '~/composables/useJoke';
 import AppChip from '~/components/AppChip.vue';
 import { useToast } from '~/composables/useToast';
@@ -50,15 +49,11 @@ const { getChipVariant } = useJokeUtils();
 
 const route = useRoute();
 const id = Number(route.params.id);
-const { data, isPending: isLoading, isError, error } = useJoke(id);
+const { joke, loading: isLoading, isError, error } = useJoke(id);
 const { showToast } = useToast();
 
-const joke = computed(() => data.value as Joke | undefined);
 const errorMessage = computed(() => {
-  if (error.value) {
-    return error.value.message || 'Failed to load joke';
-  }
-  return 'Unknown error';
+  return error.value || 'Unknown error';
 });
 
 watch(

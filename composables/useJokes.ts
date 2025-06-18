@@ -1,28 +1,26 @@
-import { ref, watch, type Ref } from 'vue';
+import { useQuery } from '@tanstack/vue-query';
+import { computed, type Ref } from 'vue';
 import { useNuxtApp } from 'nuxt/app';
 import type { Joke, JokeType } from '~/types/joke';
 
 export function useJokes(type: Ref<JokeType | 'random'>) {
   const api = useNuxtApp().$api as import('axios').AxiosInstance;
-  const jokes = ref<Joke[]>([]);
-  const loading = ref(false);
-  const error = ref<string | null>(null);
 
-  const fetchJokes = async () => {
-    loading.value = true;
-    error.value = null;
-    try {
+  const result = useQuery({
+    queryKey: ['jokes', type],
+    queryFn: async () => {
       const { data } = await api.get<Joke[]>(`/jokes/${type.value}/ten`);
-      jokes.value = data;
-    } catch (err: Error | unknown) {
-      const errorMessage = err instanceof Error ? err.message : 'Unknown error';
-      error.value = errorMessage || 'Error loading jokes';
-    } finally {
-      loading.value = false;
-    }
-  };
+      return data;
+    },
+    enabled: !!type.value,
+    refetchOnWindowFocus: false,
+  });
 
-  watch(type, fetchJokes, { immediate: true });
+  const jokes = computed(() => result.data.value || []);
+  const loading = computed(() => result.isPending.value);
+  const error = computed(() => (result.error.value ? (result.error.value as Error).message : null));
+
+  const fetchJokes = () => result.refetch();
 
   return { jokes, loading, error, fetchJokes };
 }
