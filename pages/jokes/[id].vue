@@ -34,12 +34,13 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useJokeUtils } from '~/composables/useJokeUtils';
 import type { Joke } from '~/types/joke';
 import { useJokeById } from '~/composables/useJokeById';
 import AppChip from '~/components/AppChip.vue';
+import { useToast } from '~/composables/useToast';
 
 definePageMeta({
   keepalive: false,
@@ -50,6 +51,7 @@ const { getChipVariant } = useJokeUtils();
 const route = useRoute();
 const id = Number(route.params.id);
 const { data, isPending: isLoading, isError, error } = useJokeById(id);
+const { showToast } = useToast();
 
 const joke = computed(() => data.value as Joke | undefined);
 const errorMessage = computed(() => {
@@ -58,4 +60,14 @@ const errorMessage = computed(() => {
   }
   return 'Unknown error';
 });
+
+watch(
+  () => isError.value,
+  (hasError) => {
+    if (hasError) {
+      showToast(`Error loading joke #${id}: ${errorMessage.value}`, 'error', 5000);
+    }
+  },
+  { immediate: true }
+);
 </script>

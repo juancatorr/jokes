@@ -1,28 +1,38 @@
 <template>
-  <div class="flex flex-col items-center gap-4 align-end">
-    <div class="w-full flex justify-end items-center">
-      <JokeTypeSelector :initial-type="type" @type-change="handleTypeChange" />
-    </div>
+  <div class="w-full flex justify-end items-center">
+    <JokeTypeSelector :initial-type="type" @type-change="handleTypeChange" />
+  </div>
 
-    <JokeSkeletonGrid v-if="loading" />
-    <div v-else-if="error" class="my-4 text-center text-red-500">Error: {{ error }}</div>
+  <JokeSkeletonGrid v-if="loading" />
+  <div v-else-if="error" class="my-4 text-center text-danger-fg">Error: {{ error }}</div>
 
-    <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-      <JokeCard v-for="joke in jokes" :key="joke.id" :joke="joke" />
-    </div>
+  <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+    <JokeCard v-for="joke in jokes" :key="joke.id" :joke="joke" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { useJokesSimple } from '~/composables/useJokesSimple';
 import type { JokeType } from '~/types/joke';
 import JokeCard from '~/components/JokeCard.vue';
 import JokeTypeSelector from '~/components/JokeTypeSelector.vue';
 import JokeSkeletonGrid from '~/components/JokeSkeletonGrid.vue';
+import { useToast } from '~/composables/useToast';
 
 const type = ref<JokeType>('programming');
 const { jokes, loading, error } = useJokesSimple(type);
+const { showToast } = useToast();
+
+watch(
+  () => error.value,
+  (newError) => {
+    if (newError) {
+      showToast(`Error loading jokes: ${newError}`, 'error', 5000);
+    }
+  },
+  { immediate: true }
+);
 
 function handleTypeChange(newType: JokeType) {
   type.value = newType;
