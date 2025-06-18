@@ -2,7 +2,7 @@
   <div class="mb-4 flex justify-center items-center">
     <label for="type" class="mr-2 text-text font-medium">Type:</label>
     <div v-if="loading" class="flex items-center">
-      <div class="w-[148px] h-[36px] bg-gray-200 rounded-lg animate-pulse"/>
+      <div class="w-[148px] h-[36px] bg-gray-200 rounded-lg animate-pulse" />
     </div>
     <select
       v-else
@@ -32,13 +32,13 @@ const emit = defineEmits<{
   (e: 'typeChange', type: JokeType): void;
 }>();
 
-const { data, loading, error } = useJokeTypes();
+const { jokeTypes, loading, error } = useJokeTypes();
 const { showToast } = useToast();
 
 const fallbackTypes: JokeType[] = ['programming', 'general', 'knock-knock'];
 
 const availableTypes = computed<JokeType[]>(() => {
-  return data.value && data.value.length > 0 ? data.value : fallbackTypes;
+  return jokeTypes.value.length > 0 ? jokeTypes.value : fallbackTypes;
 });
 
 watch(
