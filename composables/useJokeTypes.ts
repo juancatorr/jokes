@@ -19,12 +19,9 @@ export function useJokeTypes() {
   const loading = computed(() => result.isPending.value);
   const error = computed(() => (result.error.value ? (result.error.value as Error).message : null));
 
-  const fetchJokeTypes = () => result.refetch();
-
   return {
     jokeTypes,
     loading,
     error,
-    fetchJokeTypes,
   };
 }

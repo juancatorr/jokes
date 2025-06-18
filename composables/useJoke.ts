@@ -21,7 +21,5 @@ export function useJoke(id: number) {
   const error = computed(() => (result.error.value ? (result.error.value as Error).message : null));
   const isError = computed(() => result.isError.value);
 
-  const fetchJoke = () => result.refetch();
-
-  return { joke, loading, error, isError, fetchJoke };
+  return { joke, loading, error, isError };
 }
