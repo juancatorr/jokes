@@ -7,9 +7,9 @@
       size="lg"
       class="ml-2"
       title="Refresh jokes"
-      @click="fetchJokes"
+      @click="handleRefresh"
     >
-      <Icon name="octicon:sync-16" class="h-5 w-5" />
+      <Icon name="octicon:sync-16" class="h-5 w-5" :class="{ 'rotate-animation': isRotating }" />
     </AppButton>
   </div>
 
@@ -34,6 +34,7 @@ import { useToast } from '~/composables/useToast';
 const type = ref<JokeType>('programming');
 const { jokes, loading, error, fetchJokes } = useJokes(type);
 const { showToast } = useToast();
+const isRotating = ref(false);
 
 watch(
   () => error.value,
@@ -48,4 +49,28 @@ watch(
 function handleTypeChange(newType: JokeType) {
   type.value = newType;
 }
+
+function handleRefresh() {
+  isRotating.value = true;
+  fetchJokes();
+
+  setTimeout(() => {
+    isRotating.value = false;
+  }, 1000);
+}
 </script>
+
+<style scoped>
+.rotate-animation {
+  animation: rotate 1s ease-in-out;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+</style>
