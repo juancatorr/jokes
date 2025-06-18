@@ -38,7 +38,7 @@
     </div>
 
     <div v-if="loading && !isFetchingNextPage" class="my-4 text-center">
-      <JokeSkeletonGrid />
+      <JokeSkeletonInfiniteGrid />
     </div>
     <div v-else-if="error" class="my-4 text-center text-danger-fg">Error: {{ error }}</div>
     <div v-else>
@@ -51,7 +51,7 @@
 
       <div ref="loadMoreTrigger" class="h-30 w-full flex justify-center items-center my-8">
         <div v-if="isFetchingNextPage" class="flex justify-center">
-          <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"/>
+          <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
         </div>
         <div v-else-if="!hasNextPage" class="text-gray-500">No more jokes to load</div>
       </div>
@@ -62,7 +62,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue';
 import JokeCard from '~/components/JokeCard.vue';
-import JokeSkeletonGrid from '~/components/JokeSkeletonGrid.vue';
+import JokeSkeletonInfiniteGrid from '~/components/JokeSkeletonInfiniteGrid.vue';
 import { useRandomJokes } from '~/composables/useJokes';
 
 definePageMeta({
