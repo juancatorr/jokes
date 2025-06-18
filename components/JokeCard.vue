@@ -1,17 +1,21 @@
 <template>
   <NuxtLink
     :to="`/jokes/${joke.id}`"
-    class="group border border-border rounded-lg p-5 bg-surface shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 h-full flex flex-col justify-between w-full no-underline hover:no-underline relative"
+    class="group border border-border rounded-lg p-5 bg-surface shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 h-65 flex flex-col justify-between w-full no-underline hover:no-underline relative"
   >
     <div class="flex-grow">
-      <div class="font-semibold text-lg mb-3 text-text">{{ joke.setup }}</div>
-      <div class="text-text-muted mt-2 italic">{{ joke.punchline }}</div>
+      <div class="font-semibold text-lg mb-3 text-text line-clamp-3 overflow-hidden">
+        {{ joke.setup }}
+      </div>
+      <div class="text-text-muted mt-2 italic line-clamp-3 overflow-hidden">
+        {{ joke.punchline }}
+      </div>
     </div>
 
     <div class="mt-4 flex justify-between items-center">
-      <div class="text-sm text-text-subtle px-2 py-1 bg-secondary-50 rounded-full">
+      <AppChip :variant="getChipVariant(joke.type)" size="md">
         {{ joke.type }}
-      </div>
+      </AppChip>
 
       <Icon
         name="octicon:chevron-right-16"
@@ -22,9 +26,23 @@
 </template>
 
 <script setup lang="ts">
-import type { Joke } from '~/types/joke';
+import type { Joke, JokeType } from '~/types/joke';
 
 defineProps<{
   joke: Joke;
 }>();
+
+function getChipVariant(
+  type: JokeType
+): 'default' | 'primary' | 'success' | 'danger' | 'attention' {
+  switch (type) {
+    case 'programming':
+      return 'primary';
+    case 'knock-knock':
+      return 'attention';
+    case 'general':
+    default:
+      return 'default';
+  }
+}
 </script>
