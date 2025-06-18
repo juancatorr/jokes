@@ -1,6 +1,8 @@
 <template>
-  <div>
-    <JokeTypeSelector :initial-type="type" @type-change="handleTypeChange" />
+  <div class="flex flex-col items-center gap-4 align-end">
+    <div class="w-full flex justify-end items-center">
+      <JokeTypeSelector :initial-type="type" @type-change="handleTypeChange" />
+    </div>
 
     <JokeSkeletonGrid v-if="loading" />
     <div v-else-if="error" class="my-4 text-center text-red-500">Error: {{ error }}</div>

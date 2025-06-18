@@ -1,7 +1,7 @@
 <template>
   <NuxtLink
     :to="`/jokes/${joke.id}`"
-    class="group border border-border rounded-lg p-5 bg-surface shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 h-65 flex flex-col justify-between w-full no-underline hover:no-underline relative"
+    class="group border border-border rounded-lg p-5 bg-surface shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 h-65 flex flex-col justify-between w-full no-underline hover:no-underline relative focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
   >
     <div class="flex-grow">
       <div class="font-semibold text-lg mb-3 text-text line-clamp-3 overflow-hidden">
