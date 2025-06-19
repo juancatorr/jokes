@@ -10,7 +10,7 @@ export function useJoke(id: number, options: UseJokeOptions = {}) {
   const result = useApiQuery<Joke>(`/jokes/${id}`, ['joke', id], {
     enabled: !!id,
     initialData: options.initialData,
-    refetchInterval: options.refetchInterval || 1000 * 60 * 10, // 10 minutos por defecto
+    refetchInterval: options.refetchInterval || 1000 * 60 * 10, // 10 minutes
   });
 
   const joke = computed(() => result.data.value);

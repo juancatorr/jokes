@@ -22,17 +22,6 @@
       />
       <span>Ten Jokes</span>
     </NuxtLink>
-    <NuxtLink
-      to="/jokes/favorites"
-      class="text-text-on-primary hover:text-secondary-50 transition-colors duration-300 flex items-center font-medium text-lg"
-      active-class="border-b-2 border-secondary-50"
-    >
-      <Icon
-        name="octicon:heart-16"
-        class="h-5 w-5 mr-1 transition-all hover:scale-125 hover:text-danger-emphasis duration-300 hover:animate-pulse"
-      />
-      <span>Favorites</span>
-    </NuxtLink>
   </nav>
 </template>
 

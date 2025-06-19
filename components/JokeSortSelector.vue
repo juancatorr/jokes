@@ -53,7 +53,6 @@ const emit = defineEmits<{
 const selectedOption = ref<SortOption>(props.initialOption);
 const selectedDirection = ref<SortDirection>(props.initialDirection);
 
-// Opciones de ordenamiento para el selector
 const sortOptions = computed<SelectOption[]>(() => [
   { value: 'none', label: 'None' },
   { value: 'id', label: 'ID' },
