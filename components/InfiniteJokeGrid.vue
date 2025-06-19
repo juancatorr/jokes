@@ -37,6 +37,7 @@ import JokeCard from '~/components/JokeCard.vue';
 import JokeSkeletonInfiniteGrid from '~/components/JokeSkeletonInfiniteGrid.vue';
 import JokeSortSelector from '~/components/JokeSortSelector.vue';
 import { useRandomJokes, type SortOption, type SortDirection } from '~/composables/useJokes';
+import { useToast } from '~/composables/useToast';
 
 const props = defineProps({
   initialLimit: {
@@ -59,7 +60,8 @@ const {
 } = useRandomJokes(props.initialLimit);
 
 const loadMoreTrigger = ref<HTMLElement | null>(null);
-let observer: IntersectionObserver | null = null;
+let isCheckingScroll = false;
+const { showToast } = useToast();
 
 function handleSortChange(option: SortOption, direction: SortDirection) {
   setSorting(option, direction);
@@ -69,29 +71,47 @@ function handleDirectionChange() {
   toggleDirection();
 }
 
-onMounted(() => {
-  observer = new IntersectionObserver(handleIntersection, {
-    root: null,
-    rootMargin: '0px',
-    threshold: 1,
-  });
-
-  if (loadMoreTrigger.value) {
-    observer.observe(loadMoreTrigger.value);
+function checkIfShouldLoadMore() {
+  if (!loadMoreTrigger.value || loading.value || isFetchingNextPage.value || isCheckingScroll) {
+    return;
   }
+
+  isCheckingScroll = true;
+
+  requestAnimationFrame(async () => {
+    try {
+      if (!loadMoreTrigger.value) return;
+
+      const rect = loadMoreTrigger.value.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+
+      const isVisible = rect.top < windowHeight && rect.bottom > 0;
+
+      if (isVisible && !loading.value && !isFetchingNextPage.value) {
+        await fetchNextPage();
+      }
+    } catch (error) {
+      showToast(
+        `Error loading more jokes: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        'error'
+      );
+    } finally {
+      isCheckingScroll = false;
+    }
+  });
+}
+
+onMounted(() => {
+  console.log('Component mounted, setting up scroll listeners');
+  window.addEventListener('scroll', checkIfShouldLoadMore, { passive: true });
+  window.addEventListener('resize', checkIfShouldLoadMore, { passive: true });
+
+  setTimeout(checkIfShouldLoadMore, 500);
 });
 
 onUnmounted(() => {
-  if (observer && loadMoreTrigger.value) {
-    observer.unobserve(loadMoreTrigger.value);
-    observer.disconnect();
-  }
+  console.log('Component unmounted, removing scroll listeners');
+  window.removeEventListener('scroll', checkIfShouldLoadMore);
+  window.removeEventListener('resize', checkIfShouldLoadMore);
 });
-
-async function handleIntersection(entries: IntersectionObserverEntry[]) {
-  const entry = entries[0];
-  if (entry.isIntersecting && !loading.value && !isFetchingNextPage.value) {
-    await fetchNextPage();
-  }
-}
 </script>
