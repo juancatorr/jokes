@@ -36,9 +36,7 @@
   </nav>
 </template>
 
-<script setup>
-// Este componente contiene la navegación principal de la aplicación
-</script>
+<script setup></script>
 
 <style scoped>
 .icon-bounce:hover {
