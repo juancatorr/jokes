@@ -136,6 +136,95 @@ This project was built with careful consideration of modern web development best
 
 - **Infinite Scroll**: Implemented with optimized scroll detection for better performance
 
-## License
+## Technical Concepts - Questions
 
-Distributed under the MIT License. See `LICENSE` for more information.
+### Closures
+
+**What is a closure?**
+A closure is a function that remembers and can access variables from its outer lexical scope, even when the function is executed outside that scope. In other words, it's a function that "closes over" or "captures" variables from its environment, maintaining a reference to them even after the outer function has finished executing.
+
+**Example in the code:**
+In `InfiniteJokeGrid.vue`, the `checkIfElementIsVisible` function is a closure because:
+
+```javascript
+const checkIfElementIsVisible = () => {
+  if (isCheckingScroll.value || !loadMoreTriggerRef.value) return;
+
+  isCheckingScroll.value = true;
+
+  const element = loadMoreTriggerRef.value;
+  const rect = element.getBoundingClientRect();
+  const isVisible =
+    rect.top >= 0 &&
+    rect.left >= 0 &&
+    rect.bottom <= window.innerHeight &&
+    rect.right <= window.innerWidth;
+
+  if (isVisible && !isFetchingNextPage.value) {
+    fetchNextPage().catch((error) => {
+      showToast({
+        message: `Error loading more jokes: ${error.message}`,
+        type: 'error',
+      });
+    });
+  }
+
+  isCheckingScroll.value = false;
+};
+
+// Setting up event listeners
+onMounted(() => {
+  window.addEventListener('scroll', checkIfElementIsVisible);
+  window.addEventListener('resize', checkIfElementIsVisible);
+});
+```
+
+This function captures variables from its outer scope (`isCheckingScroll`, `loadMoreTriggerRef`, etc.) and maintains access to them even when executed later in response to scroll or resize events.
+
+### Side Effects
+
+**What are side effects?**
+Side effects occur when a function modifies something outside its local scope, such as:
+
+- Modifying global variables or variables from the outer scope
+- Modifying properties of objects passed as parameters
+- Performing I/O operations (API calls, DOM manipulation, etc.)
+- Throwing exceptions
+- Registering or removing event listeners
+
+**Examples in the code:**
+
+1. **API calls in composables:**
+
+```javascript
+// In useRandomJokes
+const result = useInfiniteQuery({
+  queryFn: async () => {
+    const { data } = await api.get<Joke[]>(`/jokes/random/${initialLimit}`);
+    return data;
+  },
+});
+```
+
+2. **DOM manipulation in InfiniteJokeGrid.vue:**
+
+```javascript
+const element = loadMoreTriggerRef.value;
+const rect = element.getBoundingClientRect();
+```
+
+3. **Modifying reactive state:**
+
+```javascript
+isCheckingScroll.value = true;
+// ...
+isCheckingScroll.value = false;
+```
+
+**Are they expected? Can they be avoided?**
+These side effects are expected and part of the intentional design. While some side effects are unavoidable in an interactive web application, the code follows good practices to minimize unwanted side effects:
+
+- Uses composables to encapsulate logic with side effects
+- Properly cleans up resources (event listeners) in `onUnmounted`
+- Uses Vue Query to manage server state, reducing the need for manual side effects
+- Implements flags like `isCheckingScroll` to prevent repeated or concurrent side effects
