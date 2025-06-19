@@ -37,7 +37,7 @@ const { showToast } = useToast();
 
 const fallbackTypes: JokeType[] = ['programming', 'general', 'knock-knock'];
 
-const availableTypes = computed<JokeType[]>(() => {
+const availableTypes = computed(() => {
   return jokeTypes.value.length > 0 ? jokeTypes.value : fallbackTypes;
 });
 
@@ -63,12 +63,4 @@ function formatType(type: string): string {
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ');
 }
-
-watch(
-  () => selectedType.value,
-  (newType) => {
-    emit('typeChange', newType);
-  },
-  { immediate: true }
-);
 </script>
