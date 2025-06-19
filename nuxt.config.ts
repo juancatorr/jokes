@@ -15,4 +15,9 @@ export default defineNuxtConfig({
     '@nuxt/test-utils',
     '@nuxt/ui',
   ],
+  runtimeConfig: {
+    public: {
+      apiBaseUrl: process.env.API_BASE_URL,
+    },
+  },
 });

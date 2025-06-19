@@ -41,9 +41,11 @@ import { useJoke } from '~/composables/useJoke';
 import AppChip from '~/components/AppChip.vue';
 import AppButton from '~/components/AppButton.vue';
 import { useToast } from '~/composables/useToast';
+import type { Joke } from '~/types/joke';
 
 const props = defineProps<{
   jokeId: number;
+  prefetchedJoke?: Joke | null;
 }>();
 
 defineEmits<{
@@ -52,7 +54,14 @@ defineEmits<{
 
 const { getChipVariant } = useJokeUtils();
 
-const { joke, loading: isLoading, isError, error } = useJoke(props.jokeId);
+const {
+  joke,
+  loading: isLoading,
+  isError,
+  error,
+} = useJoke(props.jokeId, {
+  initialData: props.prefetchedJoke ?? undefined,
+});
 const { showToast } = useToast();
 
 const errorMessage = computed(() => {

@@ -1,11 +1,13 @@
 import axios from 'axios';
-import { defineNuxtPlugin } from '#app';
+import { defineNuxtPlugin } from 'nuxt/app';
+import { useRuntimeConfig, type NuxtApp } from 'nuxt/app';
 
-const api = axios.create({
-  // baseURL: 'https://official-joke-api.appspot.com/',
-  baseURL: 'http://localhost:3005/',
-});
+export default defineNuxtPlugin((nuxtApp: NuxtApp) => {
+  const config = useRuntimeConfig();
+  const apiBaseUrl = config.public.apiBaseUrl as string;
+  const api = axios.create({
+    baseURL: apiBaseUrl,
+  });
 
-export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.provide('api', api);
 });
