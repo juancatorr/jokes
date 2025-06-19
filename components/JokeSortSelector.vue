@@ -18,18 +18,11 @@
     <AppButton
       v-if="selectedOption !== 'none'"
       variant="outline"
-      size="sm"
+      size="md"
       :title="`Sort ${selectedDirection === 'asc' ? 'ascending' : 'descending'}`"
       @click="toggleDirection"
     >
-      <Icon
-        :name="
-          selectedDirection === 'asc'
-            ? 'heroicons:arrow-up-20-solid'
-            : 'heroicons:arrow-down-20-solid'
-        "
-        class="h-5 w-5"
-      />
+      <Icon name="octicon:arrow-up-16" class="h-5 w-5" />
     </AppButton>
   </div>
 </template>

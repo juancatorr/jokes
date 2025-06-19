@@ -4,8 +4,7 @@
     <AppButton
       variant="primary"
       rounded="md"
-      size="lg"
-      class="ml-2"
+      size="md"
       title="Refresh jokes"
       @click="handleRefresh"
     >
