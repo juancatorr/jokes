@@ -22,6 +22,8 @@ A modern application to explore and enjoy jokes from different categories, built
 - **State Management**: Vue Query (TanStack Query)
 - **HTTP Client**: Axios
 - **Icons**: Nuxt Icon
+- **Code Quality**: ESLint, Prettier
+- **Git Hooks**: Husky, lint-staged
 
 ## Requirements
 
