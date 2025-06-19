@@ -1,19 +1,10 @@
-import { useQuery } from '@tanstack/vue-query';
 import { computed } from 'vue';
-import { useNuxtApp } from 'nuxt/app';
+import { useApiQuery } from '~/composables/useApiQuery';
 import type { Joke } from '~/types/joke';
 
 export function useJoke(id: number) {
-  const api = useNuxtApp().$api as import('axios').AxiosInstance;
-
-  const result = useQuery({
-    queryKey: ['joke', id],
-    queryFn: async () => {
-      const { data } = await api.get<Joke>(`/jokes/${id}`);
-      return data;
-    },
+  const result = useApiQuery<Joke>(`/jokes/${id}`, ['joke', id], {
     enabled: !!id,
-    refetchOnWindowFocus: false,
   });
 
   const joke = computed(() => result.data.value);

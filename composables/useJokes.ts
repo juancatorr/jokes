@@ -1,22 +1,15 @@
-import { useQuery, useInfiniteQuery } from '@tanstack/vue-query';
+import { useInfiniteQuery } from '@tanstack/vue-query';
 import { computed, ref, type Ref } from 'vue';
 import { useNuxtApp } from 'nuxt/app';
+import { useApiQuery } from '~/composables/useApiQuery';
 import type { Joke, JokeType } from '~/types/joke';
 
 export type SortOption = 'id' | 'setup' | 'type' | 'none';
 export type SortDirection = 'asc' | 'desc';
 
 export function useJokes(type: Ref<JokeType | 'random'>) {
-  const api = useNuxtApp().$api as import('axios').AxiosInstance;
-
-  const result = useQuery({
-    queryKey: ['jokes', type],
-    queryFn: async () => {
-      const { data } = await api.get<Joke[]>(`/jokes/${type.value}/ten`);
-      return data;
-    },
+  const result = useApiQuery<Joke[]>(`/jokes/${type.value}/ten`, ['jokes', type], {
     enabled: !!type.value,
-    refetchOnWindowFocus: false,
   });
 
   const jokes = computed(() => result.data.value || []);
@@ -44,6 +37,7 @@ export function useRandomJokes(initialLimit: number = 10) {
     },
     initialPageParam: 1,
     refetchOnWindowFocus: false,
+    staleTime: 1000 * 60 * 5, // 5 minutos
   });
 
   const allJokes = computed(() => {
