@@ -22,7 +22,11 @@
       :title="`Sort ${selectedDirection === 'asc' ? 'ascending' : 'descending'}`"
       @click="toggleDirection"
     >
-      <Icon name="octicon:arrow-up-16" class="h-5 w-5" />
+      <Icon
+        name="octicon:arrow-up-16"
+        class="h-5 w-5 transition-transform duration-300"
+        :class="{ 'rotate-180': selectedDirection === 'desc' }"
+      />
     </AppButton>
   </div>
 </template>
