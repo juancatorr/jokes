@@ -1,7 +1,7 @@
 <template>
   <button
     :class="[
-      'inline-flex items-center justify-center transition-colors',
+      'inline-flex items-center justify-center transition-colors cursor-pointer',
       sizeClasses,
       variantClasses,
       roundedClasses,
@@ -11,7 +11,7 @@
     :type="type"
     @click="$emit('click', $event)"
   >
-    <slot/>
+    <slot />
   </button>
 </template>
 

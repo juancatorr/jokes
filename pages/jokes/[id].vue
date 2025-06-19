@@ -21,13 +21,14 @@
         </AppChip>
       </div>
       <div class="mt-8 flex justify-end">
-        <NuxtLink
-          to="/jokes"
-          class="px-4 py-2 bg-primary-600 text-text-on-primary rounded-md hover:bg-primary-700 transition-all duration-300 flex items-center gap-2 transform hover:scale-105"
+        <AppButton
+          variant="primary"
+          class="flex items-center gap-2 transform hover:scale-105"
+          @click="goBack"
         >
           <Icon name="octicon:arrow-left-16" class="h-5 w-5" />
           <span>Back to Jokes List</span>
-        </NuxtLink>
+        </AppButton>
       </div>
     </div>
   </div>
@@ -35,10 +36,11 @@
 
 <script setup lang="ts">
 import { computed, watch } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useJokeUtils } from '~/composables/useJokeUtils';
 import { useJoke } from '~/composables/useJoke';
 import AppChip from '~/components/AppChip.vue';
+import AppButton from '~/components/AppButton.vue';
 import { useToast } from '~/composables/useToast';
 
 definePageMeta({
@@ -48,7 +50,13 @@ definePageMeta({
 const { getChipVariant } = useJokeUtils();
 
 const route = useRoute();
+const router = useRouter();
 const id = Number(route.params.id);
+
+function goBack() {
+  router.back();
+}
+
 const { joke, loading: isLoading, isError, error } = useJoke(id);
 const { showToast } = useToast();
 

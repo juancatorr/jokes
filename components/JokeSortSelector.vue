@@ -15,9 +15,10 @@
       </select>
     </div>
 
-    <button
+    <AppButton
       v-if="selectedOption !== 'none'"
-      class="flex items-center justify-center p-2 rounded-md hover:bg-gray-100 transition-colors"
+      variant="outline"
+      size="sm"
       :title="`Sort ${selectedDirection === 'asc' ? 'ascending' : 'descending'}`"
       @click="toggleDirection"
     >
@@ -29,12 +30,13 @@
         "
         class="h-5 w-5"
       />
-    </button>
+    </AppButton>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, watch } from 'vue';
+import AppButton from '~/components/AppButton.vue';
 import type { SortOption, SortDirection } from '~/composables/useJokes';
 
 const props = defineProps({
