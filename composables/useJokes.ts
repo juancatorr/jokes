@@ -8,15 +8,25 @@ export type SortOption = 'id' | 'setup' | 'type' | 'none';
 export type SortDirection = 'asc' | 'desc';
 
 export function useJokes(type: Ref<JokeType | 'random'>) {
-  const result = useApiQuery<Joke[]>(`/jokes/${type.value}/ten`, ['jokes', type], {
-    enabled: !!type.value,
-  });
+  const result = useApiQuery<Joke[]>(
+    () => `/jokes/${type.value}/ten`,
+    () => ['jokes', type.value],
+    {
+      enabled: !!type.value,
+    }
+  );
 
   const jokes = computed(() => result.data.value || []);
   const loading = computed(() => result.isPending.value);
   const error = computed(() => (result.error.value ? (result.error.value as Error).message : null));
 
-  const fetchJokes = () => result.refetch();
+  const fetchJokes = (newType?: JokeType | 'random') => {
+    if (newType && newType !== type.value) {
+      type.value = newType;
+    }
+
+    return result.refetch();
+  };
 
   return { jokes, loading, error, fetchJokes };
 }

@@ -32,7 +32,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { ref } from 'vue';
 import AppButton from '~/components/AppButton.vue';
 import type { SortOption, SortDirection } from '~/composables/useJokes';
 
@@ -63,19 +63,4 @@ function toggleDirection() {
   selectedDirection.value = selectedDirection.value === 'asc' ? 'desc' : 'asc';
   emit('directionChange', selectedDirection.value);
 }
-
-// Sync with parent when props change
-watch(
-  () => props.initialOption,
-  (newValue) => {
-    selectedOption.value = newValue;
-  }
-);
-
-watch(
-  () => props.initialDirection,
-  (newValue) => {
-    selectedDirection.value = newValue;
-  }
-);
 </script>

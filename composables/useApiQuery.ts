@@ -13,16 +13,17 @@ const defaultQueryOptions = {
  * Hook personalizado para realizar consultas a la API con configuración predeterminada
  */
 export function useApiQuery<TData = unknown, TError = Error>(
-  endpoint: string,
-  queryKey: unknown[],
+  endpoint: string | (() => string),
+  queryKey: unknown[] | (() => unknown[]),
   options?: Partial<UseQueryOptions<TData, TError>>
 ) {
   const api = useNuxtApp().$api as AxiosInstance;
 
   return useQuery<TData, TError>({
-    queryKey,
+    queryKey: typeof queryKey === 'function' ? queryKey() : queryKey,
     queryFn: async () => {
-      const { data } = await api.get<TData>(endpoint);
+      const endpointValue = typeof endpoint === 'function' ? endpoint() : endpoint;
+      const { data } = await api.get<TData>(endpointValue);
       return data;
     },
     ...defaultQueryOptions,

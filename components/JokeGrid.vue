@@ -46,7 +46,7 @@ watch(
 );
 
 function handleTypeChange(newType: JokeType) {
-  type.value = newType;
+  fetchJokes(newType);
 }
 
 function handleRefresh() {
