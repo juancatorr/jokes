@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center gap-4">
+  <div class="flex items-center gap-4 min-w-[208px]">
     <div class="flex items-center">
       <label for="sort" class="mr-2 text-text font-medium">Sort by:</label>
       <select
