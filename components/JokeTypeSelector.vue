@@ -1,21 +1,13 @@
 <template>
-  <div class="flex justify-center items-center">
-    <label for="type" class="mr-2 text-text font-medium">Type:</label>
-    <div v-if="loading" class="flex items-center">
-      <div class="w-[148px] h-[36px] bg-gray-200 rounded-lg animate-pulse" />
-    </div>
-    <select
-      v-else
-      id="type"
-      v-model="selectedType"
-      class="border border-border rounded-lg px-3 py-1.5 bg-surface text-text focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-primary-600 transition-colors duration-normal"
-      @change="emitTypeChange"
-    >
-      <option v-for="type in availableTypes" :key="type" :value="type">
-        {{ formatType(type) }}
-      </option>
-    </select>
-  </div>
+  <AppSelector
+    id="type"
+    label="Type"
+    :options="formattedOptions"
+    :initial-value="selectedType"
+    :loading="loading"
+    class="flex justify-center"
+    @change="handleTypeChange"
+  />
 </template>
 
 <script setup lang="ts">
@@ -23,6 +15,8 @@ import { ref, watch, computed } from 'vue';
 import type { JokeType } from '~/types/joke';
 import { useJokeTypes } from '~/composables/useJokeTypes';
 import { useToast } from '~/composables/useToast';
+import AppSelector from '~/components/AppSelector.vue';
+import type { SelectOption } from '~/components/AppSelector.vue';
 
 const props = defineProps<{
   initialType?: JokeType;
@@ -41,6 +35,13 @@ const availableTypes = computed(() => {
   return jokeTypes.value.length > 0 ? jokeTypes.value : fallbackTypes;
 });
 
+const formattedOptions = computed<SelectOption[]>(() => {
+  return availableTypes.value.map((type) => ({
+    value: type,
+    label: formatType(type),
+  }));
+});
+
 watch(
   () => error.value,
   (newError) => {
@@ -53,7 +54,8 @@ watch(
 
 const selectedType = ref<JokeType>(props.initialType || 'programming');
 
-function emitTypeChange() {
+function handleTypeChange(value: string) {
+  selectedType.value = value as JokeType;
   emit('typeChange', selectedType.value);
 }
 
