@@ -2,6 +2,8 @@
 
 A modern application to explore and enjoy jokes from different categories, built with Nuxt 3, Vue 3, TypeScript, and TailwindCSS.
 
+**Live Demo:** [https://jokes-git-main-juancas-projects.vercel.app/](https://jokes-git-main-juancas-projects.vercel.app/)
+
 ## Features
 
 - **Joke Exploration**: Browse through a collection of jokes from different categories
